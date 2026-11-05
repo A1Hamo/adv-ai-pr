@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icon, gauge, section_head %}
+{% set page_key = 'home' %}
+{% block main %}
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <span class="eyebrow"><i class="pulse-dot"></i>{{ t('hero.eyebrow') }}</span>
+      <h1>{{ t('hero.title') }}</h1>
+      <p class="lead">{{ t('hero.sub') }}</p>
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--lg" href="/analyzer">{{ t('hero.cta1') }}<span class="arrow">{{ icon('arrow', 18) }}</span></a>
+        <a class="btn btn--outline-light btn--lg" href="/technology">{{ t('hero.cta2') }}</a>
+      </div>
+      <ul class="hero__points">
+        <li>{{ icon('check', 16) }}{{ t('hero.p1') }}</li>
+        <li>{{ icon('check', 16) }}{{ t('hero.p2') }}</li>
+        <li>{{ icon('check', 16) }}{{ t('hero.p3') }}</li>
+      </ul>
+    </div>
+    <div class="hero__visual">
+      <div class="mock" id="mock">
+        <div class="mock__bar"><span class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock__label">{{ t('hero.mock_label') }}</span></div>
+        <div class="mock__body">
+          <div class="mock__tabs" role="group">
+            <button type="button" class="chip" data-demo="benign" aria-pressed="false">{{ t('hero.mock_benign') }}</button>
+            <button type="button" class="chip" data-demo="malignant" aria-pressed="true">{{ t('hero.mock_malignant') }}</button>
+          </div>
+          <h2 class="mock__title">{{ t('hero.mock_title') }}</h2>
+          {{ gauge('mock') }}
+          <div class="verdict verdict--mal" id="mock-verdict" aria-live="polite">
+            <strong id="mock-verdict-label">{{ t('js.verdict_malignant') }}</strong>
+            <span id="mock-verdict-prob">—</span>
+          </div>
+          <ul class="mini-bars" id="mock-bars" aria-hidden="true"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container stats" aria-label="Key figures">
+  <div class="stat"><strong>{{ stats.acc }}</strong><span>{{ t('stat.acc') }}</span></div>
+  <div class="stat"><strong>{{ stats.rec }}</strong><span>{{ t('stat.rec') }}</span></div>
+  <div class="stat"><strong>{{ stats.auc }}</strong><span>{{ t('stat.auc') }}</span></div>
+  <div class="stat"><strong>9</strong><span>{{ t('stat.feat') }}</span></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {{ section_head(t('cap.kicker'), t('cap.title'), t('cap.sub'), True) }}
+    <div class="grid grid--3 reveal-group">
+      {% for n, ic in [(1,'zap'),(2,'eye'),(3,'layers'),(4,'file-text'),(5,'globe'),(6,'code')] %}
+      <article class="feature reveal">
+        <span class="feature__icon">{{ icon(ic, 22) }}</span>
+        <h3>{{ t('cap%d.t' % n) }}</h3>
+        <p>{{ t('cap%d.d' % n) }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    {{ section_head(t('how.kicker'), t('how.title'), t('how.sub'), True) }}
+    <ol class="steps reveal-group">
+      {% for n in [1,2,3] %}
+      <li class="step reveal"><span class="step__num">{{ n }}</span><h3>{{ t('how%d.t' % n) }}</h3><p>{{ t('how%d.d' % n) }}</p></li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split">
+    <div class="split__copy">
+      <span class="kicker">{{ t('pt.kicker') }}</span>
+      <h2>{{ t('pt.title') }}</h2>
+      <p>{{ t('pt.text') }}</p>
+      <a class="btn btn--ghost" href="/performance">{{ t('pt.cta') }}<span class="arrow">{{ icon('arrow', 16) }}</span></a>
+    </div>
+    <div class="split__visual">
+      <div class="card bars-card" id="home-compare" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="container">
+    {{ section_head(t('sec.kicker'), t('sec.title'), t('sec.sub'), True) }}
+    <div class="grid grid--3">
+      {% for n, ic in [(1,'lock'),(2,'slash'),(3,'shield')] %}
+      <article class="feature feature--dark"><span class="feature__icon">{{ icon(ic, 22) }}</span><h3>{{ t('sec%d.t' % n) }}</h3><p>{{ t('sec%d.d' % n) }}</p></article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container--narrow">
+    {{ section_head(t('faq.kicker'), t('faq.title'), None, True) }}
+    {% for n in [1,2,3,4,5] %}
+    <details class="faq"><summary>{{ t('faq%d.q' % n) }}</summary><p>{{ t('faq%d.a' % n) }}</p></details>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container">
+  <div class="cta-band">
+    <div><h2>{{ t('cta.title') }}</h2><p>{{ t('cta.sub') }}</p></div>
+    <a class="btn btn--light btn--lg" href="/analyzer">{{ t('cta.btn') }}<span class="arrow">{{ icon('arrow', 18) }}</span></a>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ asset('js/home.js') }}"></script>{% endblock %}

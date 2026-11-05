@@ -1,0 +1,89 @@
+{%- from "_macros.html" import icon -%}
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="{{ dir }}" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ t(page_key ~ '.meta_title') }}</title>
+  <meta name="description" content="{{ t(page_key ~ '.meta_desc') }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ brand.name }}">
+  <meta property="og:title" content="{{ t(page_key ~ '.meta_title') }}">
+  <meta property="og:description" content="{{ t(page_key ~ '.meta_desc') }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta name="theme-color" content="#0a1f33">
+  <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+  <script src="{{ asset('js/theme.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body data-model-ready="{{ 'true' if model_ready else 'false' }}" data-page="{{ page_key }}" data-max-batch="{{ max_batch_rows }}">
+  <a class="skip-link" href="#main">{{ t('skip') }}</a>
+
+  <header class="site-header" id="site-header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="{{ brand.name }}">
+        <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="16" cy="16" r="9"/><circle cx="16" cy="16" r="3.2" fill="currentColor" stroke="none"/><path d="M16 3v4M16 25v4M3 16h4M25 16h4"/></svg></span>
+        <span class="brand__name">{{ brand.name }}</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="/analyzer"{% if active == 'analyzer' %} class="is-active" aria-current="page"{% endif %}>{{ t('nav.analyzer') }}</a>
+        <a href="/performance"{% if active == 'performance' %} class="is-active" aria-current="page"{% endif %}>{{ t('nav.performance') }}</a>
+        <a href="/technology"{% if active == 'technology' %} class="is-active" aria-current="page"{% endif %}>{{ t('nav.technology') }}</a>
+        <a href="/developers"{% if active == 'developers' %} class="is-active" aria-current="page"{% endif %}>{{ t('nav.developers') }}</a>
+        <a href="/about"{% if active == 'about' %} class="is-active" aria-current="page"{% endif %}>{{ t('nav.about') }}</a>
+        <a href="/contact"{% if active == 'contact' %} class="is-active" aria-current="page"{% endif %}>{{ t('nav.contact') }}</a>
+      </nav>
+      <div class="header__tools">
+        <a class="tool-link" href="?lang={{ other_lang }}" hreflang="{{ other_lang }}" lang="{{ other_lang }}">{{ icon('globe', 16) }}<span>{{ t('nav.language') }}</span></a>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="{{ t('nav.theme') }}"><span class="only-light">{{ icon('moon', 18) }}</span><span class="only-dark">{{ icon('sun', 18) }}</span></button>
+        <a class="btn btn--primary btn--sm header__cta" href="/analyzer">{{ t('nav.cta') }}</a>
+        <button type="button" class="icon-btn menu-btn" id="menu-btn" aria-label="{{ t('nav.menu') }}" aria-expanded="false" aria-controls="nav">{{ icon('menu', 20) }}</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    {% block main %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer__grid">
+      <div class="footer__about">
+        <a class="brand brand--light" href="/"><span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="16" cy="16" r="9"/><circle cx="16" cy="16" r="3.2" fill="currentColor" stroke="none"/></svg></span><span class="brand__name">{{ brand.name }}</span></a>
+        <p>{{ t('footer.tagline') }}</p>
+        <p class="status" id="status" data-state="checking"><i class="status__dot"></i><span id="status-text">{{ t('status.checking') }}</span></p>
+      </div>
+      <div>
+        <h3>{{ t('footer.product') }}</h3>
+        <ul>
+          <li><a href="/analyzer">{{ t('footer.single') }}</a></li>
+          <li><a href="/analyzer#batch">{{ t('footer.batch') }}</a></li>
+          <li><a href="/performance">{{ t('footer.performance') }}</a></li>
+          <li><a href="/technology">{{ t('footer.technology') }}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>{{ t('footer.resources') }}</h3>
+        <ul><li><a href="/developers">{{ t('footer.api') }}</a></li></ul>
+        <h3 class="mt">{{ t('footer.company') }}</h3>
+        <ul><li><a href="/about">{{ t('footer.about') }}</a></li><li><a href="/contact">{{ t('footer.contact') }}</a></li></ul>
+      </div>
+      <div>
+        <h3>{{ t('footer.legal') }}</h3>
+        <ul><li><a href="/privacy">{{ t('footer.privacy') }}</a></li><li><a href="/terms">{{ t('footer.terms') }}</a></li></ul>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>{{ t('footer.rights') }}</p>
+      <p class="footer__notice">{{ t('footer.notice') }}</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script type="application/json" id="i18n">{{ js_i18n|tojson }}</script>
+  {% block scripts_before %}{% endblock %}
+  <script src="{{ asset('js/common.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

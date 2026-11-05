@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icon, section_head %}
+{% set page_key = 'pf' %}
+{% block main %}
+<section class="page-hero"><div class="container"><h1>{{ t('pf.title') }}</h1><p>{{ t('pf.sub') }}</p></div></section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="section-head"><h2>{{ t('pf.kpi_t') }}</h2><p>{{ t('pf.kpi_s') }}</p></div>
+    <div class="kpi-row" id="kpi-row"></div>
+  </div>
+</section>
+
+<section class="section section--alt section--tight">
+  <div class="container">
+    <div class="card">
+      <div class="card__head"><div><h2>{{ t('pf.compare_t') }}</h2><p class="muted">{{ t('pf.compare_s') }}</p></div></div>
+      <div class="chart chart--tall"><canvas id="chart-compare" role="img" aria-label="{{ t('pf.compare_t') }}"></canvas></div>
+      <details class="details">
+        <summary>{{ t('pf.table') }}</summary>
+        <div class="table-wrap"><table class="table table--center" id="compare-table"><thead><tr><th>{{ t('pf.th_model') }}</th><th>{{ t('m.accuracy') }}</th><th>{{ t('m.precision') }}</th><th>{{ t('m.recall') }}</th><th>{{ t('m.f1') }}</th><th>{{ t('m.roc_auc') }}</th></tr></thead><tbody></tbody></table></div>
+      </details>
+    </div>
+
+    <div class="grid grid--2 mt-lg">
+      <div class="card">
+        <div class="card__head"><div><h2>{{ t('pf.cm_t') }}</h2><p class="muted">{{ t('pf.cm_s') }}</p></div></div>
+        <div class="chips" id="cm-chips" role="tablist"></div>
+        <div class="cm" id="cm" aria-live="polite"></div>
+        <p class="muted" id="cm-note"></p>
+      </div>
+      <div class="card">
+        <div class="card__head"><div><h2>{{ t('pf.cv_t') }}</h2><p class="muted">{{ t('pf.cv_s') }}</p></div></div>
+        <div class="chart"><canvas id="chart-cv" role="img" aria-label="{{ t('pf.cv_t') }}"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card mt-lg" id="importance-card" hidden>
+      <div class="card__head"><div><h2>{{ t('pf.imp_t') }}</h2><p class="muted">{{ t('pf.imp_s') }}</p></div></div>
+      <div class="chart"><canvas id="chart-imp" role="img" aria-label="{{ t('pf.imp_t') }}"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="section-head"><h2>{{ t('pf.proto_t') }}</h2></div>
+    <div class="grid grid--5">
+      {% for n in [1,2,3,4,5] %}<article class="info"><h3>{{ t('pf.p%d.t' % n) }}</h3><p>{{ t('pf.p%d.d' % n) }}</p></article>{% endfor %}
+    </div>
+    <div class="callout mt-lg"><span class="callout__icon">{{ icon('target', 22) }}</span><div><h3>{{ t('pf.sel_t') }}</h3><p>{{ t('pf.sel_d') }}</p></div></div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts_before %}<script src="{{ asset('vendor/chart.umd.min.js') }}"></script>{% endblock %}
+{% block scripts %}<script src="{{ asset('js/performance.js') }}"></script>{% endblock %}

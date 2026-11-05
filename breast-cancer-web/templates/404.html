@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icon %}
+{% set page_key = 'nf' %}
+{% block main %}
+<section class="container notfound">
+  <p class="notfound__code">{{ '500' if server_error else '404' }}</p>
+  <h1>{{ t('nf.err_title') if server_error else t('nf.title') }}</h1>
+  <p>{{ t('nf.err_text') if server_error else t('nf.text') }}</p>
+  <a class="btn btn--primary btn--lg" href="/">{{ t('nf.home') }}</a>
+</section>
+{% endblock %}

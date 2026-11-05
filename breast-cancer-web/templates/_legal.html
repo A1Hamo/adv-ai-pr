@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="page-hero"><div class="container"><h1>{{ t(page_key ~ '.title') }}</h1><p>{{ t(page_key ~ '.sub') }}</p></div></section>
+<div class="container container--narrow legal">
+  {% for n in range(1, 9) %}
+  <section><h2>{{ n }}. {{ t(page_key ~ '.%d.t' % n) }}</h2><p>{{ t(page_key ~ '.%d.d' % n) }}{% if n == 8 %} <a href="/contact">{{ t('nav.contact') }}</a>{% endif %}</p></section>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{
+  "model": "Artificial Neural Network (MLPClassifier)",
+  "params": {
+    "hidden_layer_sizes": [
+      32
+    ],
+    "activation": "relu",
+    "alpha": 0.0001,
+    "learning_rate_init": 0.001
+  },
+  "n_samples": 691,
+  "n_train": 552,
+  "n_test": 139,
+  "positive_class": "malignant",
+  "test_metrics": {
+    "accuracy": 0.9712,
+    "precision": 0.9583,
+    "recall": 0.9583,
+    "f1": 0.9583,
+    "roc_auc": 0.9961,
+    "confusion_matrix": {
+      "tn": 89,
+      "fp": 2,
+      "fn": 2,
+      "tp": 46
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "clump_thickness",
+      "importance": 0.0251,
+      "std": 0.0143
+    },
+    {
+      "feature": "bare_nuclei",
+      "importance": 0.0108,
+      "std": 0.0198
+    },
+    {
+      "feature": "uniformity_cell_shape",
+      "importance": 0.0059,
+      "std": 0.0094
+    },
+    {
+      "feature": "bland_chromatin",
+      "importance": 0.0051,
+      "std": 0.0115
+    },
+    {
+      "feature": "single_epithelial_cell_size",
+      "importance": 0.0038,
+      "std": 0.007
+    },
+    {
+      "feature": "mitoses",
+      "importance": 0.0031,
+      "std": 0.0075
+    },
+    {
+      "feature": "marginal_adhesion",
+      "importance": 0.0004,
+      "std": 0.0077
+    },
+    {
+      "feature": "uniformity_cell_size",
+      "importance": -0.0003,
+      "std": 0.0077
+    },
+    {
+      "feature": "normal_nucleoli",
+      "importance": -0.007,
+      "std": 0.0089
+    }
+  ],
+  "deployed_on_all_data": false
+}

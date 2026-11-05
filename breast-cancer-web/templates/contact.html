@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icon %}
+{% set page_key = 'ct' %}
+{% block main %}
+<section class="page-hero"><div class="container"><h1>{{ t('ct.title') }}</h1><p>{{ t('ct.sub') }}</p></div></section>
+
+<div class="container contact">
+  <div class="card form-card" id="contact-card">
+    <form id="contact-form" novalidate>
+      <div class="form-grid">
+        <div class="field"><label for="c-name">{{ t('ct.name') }}</label><input class="input" id="c-name" name="name" type="text" autocomplete="name" required maxlength="100"><small class="field-error" data-error="name" hidden></small></div>
+        <div class="field"><label for="c-email">{{ t('ct.email') }}</label><input class="input" id="c-email" name="email" type="email" autocomplete="email" required maxlength="254" dir="ltr"><small class="field-error" data-error="email" hidden></small></div>
+        <div class="field"><label for="c-org">{{ t('ct.org') }}</label><input class="input" id="c-org" name="organization" type="text" autocomplete="organization" maxlength="120"></div>
+        <div class="field"><label for="c-topic">{{ t('ct.topic') }}</label>
+          <select class="input" id="c-topic" name="topic">
+            <option value="product">{{ t('ct.t_product') }}</option><option value="integration">{{ t('ct.t_integration') }}</option>
+            <option value="partnership">{{ t('ct.t_partnership') }}</option><option value="other">{{ t('ct.t_other') }}</option>
+          </select></div>
+      </div>
+      <div class="field"><label for="c-message">{{ t('ct.message') }}</label><textarea class="input" id="c-message" name="message" rows="6" required maxlength="4000"></textarea><small class="field-error" data-error="message" hidden></small></div>
+      <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="alert alert--error" id="contact-error" hidden role="alert"></div>
+      <button type="submit" class="btn btn--primary btn--lg" id="contact-send">{{ t('ct.send') }}</button>
+      <p class="fineprint">{{ t('ct.consent_html') }}</p>
+    </form>
+    <div class="success" id="contact-success" hidden>
+      <span class="success__icon">{{ icon('check', 28) }}</span>
+      <h2>{{ t('ct.ok_t') }}</h2><p>{{ t('ct.ok_d') }}</p>
+      <button type="button" class="btn btn--ghost" id="contact-again">{{ t('ct.again') }}</button>
+    </div>
+  </div>
+
+  <aside class="card info-card contact__info">
+    <h2>{{ t('ct.info_t') }}</h2>
+    <p>{{ t('ct.info_d') }}</p>
+    {% if brand.email %}<p class="contact__mail">{{ icon('mail', 18) }}<span><small>{{ t('ct.info_email') }}</small><a href="mailto:{{ brand.email }}" dir="ltr">{{ brand.email }}</a></span></p>{% endif %}
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ asset('js/contact.js') }}"></script>{% endblock %}

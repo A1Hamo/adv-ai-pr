@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icon %}
+{% set page_key = 'tc' %}
+{% block main %}
+<section class="page-hero"><div class="container"><h1>{{ t('tc.title') }}</h1><p>{{ t('tc.sub') }}</p></div></section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="section-head"><h2>{{ t('tc.pipe_t') }}</h2></div>
+    <ol class="pipeline">
+      {% for n, ic in [(1,'database'),(2,'layers'),(3,'activity'),(4,'cpu'),(5,'target'),(6,'eye')] %}
+      <li class="pipeline__node"><span class="pipeline__icon">{{ icon(ic, 22) }}</span><strong>{{ t('tc.n%d.t' % n) }}</strong><small>{{ t('tc.n%d.d' % n) }}</small></li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="section section--alt section--tight">
+  <div class="container">
+    <div class="grid grid--2">
+      {% for k in ['data','prep','model','val','expl'] %}
+      <article class="card info-card"><h3>{{ t('tc.%s_t' % k) }}</h3><p>{{ t('tc.%s_d' % k) }}</p></article>
+      {% endfor %}
+      <article class="card info-card info-card--accent">
+        <h3>{{ t('tc.use_t') }}</h3>
+        <ul class="checks">{% for n in [1,2,3] %}<li>{{ icon('check', 16) }}<span>{{ t('tc.use%d' % n) }}</span></li>{% endfor %}</ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container container--narrow">
+    <div class="section-head"><h2>{{ t('tc.algo_t') }}</h2></div>
+    <div class="card"><div class="table-wrap"><table class="table">
+      <thead><tr><th>{{ t('tc.th_model') }}</th><th>{{ t('tc.th_settings') }}</th></tr></thead>
+      <tbody>
+        <tr><td>KNN</td><td>{{ t('tc.a_knn') }}</td></tr>
+        <tr><td>Decision Tree</td><td>{{ t('tc.a_dt') }}</td></tr>
+        <tr><td>Random Forest</td><td>{{ t('tc.a_rf') }}</td></tr>
+        <tr class="is-selected"><td>ANN (MLP)</td><td>{{ t('tc.a_ann') }}</td></tr>
+        <tr><td>SVM</td><td>{{ t('tc.a_svm') }}</td></tr>
+      </tbody></table></div></div>
+  </div>
+</section>
+{% endblock %}

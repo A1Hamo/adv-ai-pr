@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icon, gauge %}
+{% set page_key = 'an' %}
+{% block main %}
+<section class="page-hero">
+  <div class="container"><h1>{{ t('an.title') }}</h1><p>{{ t('an.sub') }}</p></div>
+</section>
+
+<div class="container app">
+  {% if not model_ready %}<div class="alert alert--error" role="alert">{{ t('an.model_missing') }}</div>{% endif %}
+
+  <div class="tabs" role="tablist" aria-label="{{ t('an.title') }}">
+    <button type="button" class="tab is-active" role="tab" id="tab-single" aria-selected="true" aria-controls="panel-single">{{ icon('activity', 18) }}{{ t('an.tab_single') }}</button>
+    <button type="button" class="tab" role="tab" id="tab-batch" aria-selected="false" aria-controls="panel-batch" tabindex="-1">{{ icon('layers', 18) }}{{ t('an.tab_batch') }}</button>
+  </div>
+
+  <!-- ===== single ===== -->
+  <section id="panel-single" role="tabpanel" aria-labelledby="tab-single">
+    <div class="analyzer">
+      <form id="form" class="card form-card" novalidate>
+        <div class="form-top">
+          <div class="field">
+            <label for="ref">{{ t('s.ref') }}</label>
+            <input class="input" id="ref" type="text" maxlength="64" autocomplete="off" placeholder="{{ t('s.ref_ph') }}">
+          </div>
+          <div class="presets"><span class="presets__label">{{ t('s.examples') }}</span>
+            <button type="button" class="chip" id="preset-benign">{{ t('s.benign') }}</button>
+            <button type="button" class="chip" id="preset-malignant">{{ t('s.malignant') }}</button>
+            <button type="button" class="chip chip--quiet" id="reset">{{ t('s.reset') }}</button>
+          </div>
+        </div>
+        <p class="hint">{{ t('s.scale') }}</p>
+        <div id="groups"></div>
+        <button type="submit" class="btn btn--primary btn--lg btn--block" id="analyze-btn">{{ t('s.submit') }}</button>
+      </form>
+
+      <aside class="card result" id="result" aria-live="polite" aria-labelledby="result-title">
+        <div class="card__head"><h2 id="result-title">{{ t('r.title') }}</h2><span class="badge">ANN</span></div>
+        <div id="result-empty" class="empty">
+          <span class="empty__icon">{{ icon('target', 28) }}</span>
+          <strong>{{ t('r.empty_t') }}</strong>
+          <p>{{ t('r.empty') }}</p>
+        </div>
+        <div id="result-body" hidden>
+          {{ gauge('res') }}
+          <div class="gauge-scale"><span>{{ t('r.scale_ben') }}</span><span>{{ t('r.scale_mal') }}</span></div>
+          <div class="verdict" id="verdict"><strong id="verdict-label"></strong><span id="verdict-prob"></span></div>
+          <p class="confidence" id="confidence"></p>
+          <div class="kpis">
+            <div><small>{{ t('r.prob_mal') }}</small><strong id="p-mal">0%</strong></div>
+            <div><small>{{ t('r.prob_ben') }}</small><strong id="p-ben">0%</strong></div>
+          </div>
+          <div class="explain" id="explain-box">
+            <h3>{{ t('r.explain_t') }}</h3>
+            <p class="muted">{{ t('r.explain_s') }}</p>
+            <div class="legend"><span><i class="sw sw--ben"></i>{{ t('r.legend_ben') }}</span><span><i class="sw sw--mal"></i>{{ t('r.legend_mal') }}</span></div>
+            <ul class="explain-list" id="explain-list"></ul>
+          </div>
+          <p class="alert alert--warn" id="borderline" hidden>{{ t('r.borderline') }}</p>
+          <p class="alert" id="imputed" hidden>{{ t('r.imputed') }}</p>
+          <div class="result__actions">
+            <button type="button" class="btn btn--ghost btn--sm" id="print-btn">{{ icon('printer', 16) }}{{ t('r.print') }}</button>
+            <button type="button" class="btn btn--ghost btn--sm" id="copy-btn">{{ icon('copy', 16) }}{{ t('r.copy') }}</button>
+            <button type="button" class="btn btn--quiet btn--sm" id="new-btn">{{ t('r.new') }}</button>
+          </div>
+          <p class="fineprint">{{ t('r.notice') }}</p>
+        </div>
+        <div id="result-error" class="alert alert--error" hidden role="alert"></div>
+      </aside>
+    </div>
+
+    <section class="card history" id="history" hidden>
+      <div class="card__head"><div><h2>{{ t('h.title') }}</h2><p class="muted">{{ t('h.sub') }}</p></div><button type="button" class="btn btn--quiet btn--sm" id="history-clear">{{ icon('trash', 16) }}{{ t('h.clear') }}</button></div>
+      <ul class="history__list" id="history-list"></ul>
+    </section>
+  </section>
+
+  <!-- ===== batch ===== -->
+  <section id="panel-batch" role="tabpanel" aria-labelledby="tab-batch" hidden>
+    <div class="card batch-card">
+      <div class="card__head"><div><h2>{{ t('b.title') }}</h2><p class="muted">{{ t('b.sub') }}</p></div>
+        <button type="button" class="btn btn--ghost btn--sm" id="template-btn">{{ icon('download', 16) }}{{ t('b.template') }}</button></div>
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="{{ t('b.drop') }}">
+        <span class="dropzone__icon">{{ icon('upload', 26) }}</span>
+        <strong>{{ t('b.drop') }}</strong><span>{{ t('b.browse') }}</span>
+        <input type="file" id="file" accept=".csv,text/csv" hidden>
+      </div>
+      <p class="hint">{{ t('b.cols') }}</p>
+      <div class="file-chip" id="file-chip" hidden>
+        <span class="file-chip__icon">{{ icon('file', 18) }}</span><strong id="file-name"></strong><span class="muted" id="file-rows"></span>
+        <button type="button" class="icon-btn icon-btn--sm" id="file-remove" aria-label="{{ t('b.remove') }}">{{ icon('x', 16) }}</button>
+      </div>
+      <div class="alert alert--error" id="batch-error" hidden role="alert"></div>
+      <button type="button" class="btn btn--primary" id="batch-run" disabled>{{ t('b.analyze') }}</button>
+    </div>
+
+    <div id="batch-results" hidden>
+      <div class="summary" id="summary"></div>
+      <div class="card">
+        <div class="toolbar">
+          <div class="filters" id="filters" role="group"></div>
+          <button type="button" class="btn btn--ghost btn--sm" id="export-btn">{{ icon('download', 16) }}{{ t('b.export') }}</button>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="batch-table">
+            <thead><tr>
+              <th data-sort="index">{{ t('b.th_row') }}</th><th data-sort="id">{{ t('b.th_id') }}</th><th data-sort="label">{{ t('b.th_verdict') }}</th>
+              <th data-sort="p">{{ t('b.th_prob') }}</th><th data-sort="confidence">{{ t('b.th_conf') }}</th><th>{{ t('b.th_notes') }}</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section id="report" class="report" aria-hidden="true"></section>
+{% endblock %}
+{% block scripts %}<script src="{{ asset('js/analyzer.js') }}"></script>{% endblock %}

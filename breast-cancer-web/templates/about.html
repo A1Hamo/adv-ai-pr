@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icon, section_head %}
+{% set page_key = 'ab' %}
+{% block main %}
+<section class="page-hero"><div class="container"><h1>{{ t('ab.title') }}</h1><p>{{ t('ab.sub') }}</p></div></section>
+
+<section class="section section--tight">
+  <div class="container split">
+    <div class="split__copy"><span class="kicker">{{ t('ab.mission_t') }}</span><h2>{{ t('ab.mission_d') }}</h2></div>
+    <div class="card info-card"><h3>{{ t('ab.what_t') }}</h3>
+      <ul class="checks">{% for n in [1,2,3] %}<li>{{ icon('check', 16) }}<span>{{ t('ab.w%d' % n) }}</span></li>{% endfor %}</ul></div>
+  </div>
+</section>
+
+<section class="section section--alt section--tight">
+  <div class="container">
+    <div class="section-head"><h2>{{ t('ab.pr_t') }}</h2></div>
+    <div class="grid grid--4">
+      {% for n, ic in [(1,'eye'),(2,'lock'),(3,'target'),(4,'globe')] %}
+      <article class="feature"><span class="feature__icon">{{ icon(ic, 22) }}</span><h3>{{ t('ab.p%d.t' % n) }}</h3><p>{{ t('ab.p%d.d' % n) }}</p></article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="container section--tight">
+  <div class="cta-band"><div><h2>{{ t('ab.cta_t') }}</h2><p>{{ t('ab.cta_d') }}</p></div>
+    <a class="btn btn--light btn--lg" href="/contact">{{ t('ab.cta_b') }}<span class="arrow">{{ icon('arrow', 18) }}</span></a></div>
+</section>
+{% endblock %}

@@ -1,0 +1,26 @@
+{
+  "dataset": {"samples_raw": 699, "samples_clean": 691, "features": 9, "missing": 16, "duplicates": 8,
+              "malignant": 238, "benign": 453, "train": 552, "test": 139, "test_malignant": 48},
+  "models": [
+    {"id": "ann", "name": {"en": "ANN", "ar": "الشبكة العصبية"},
+     "test": {"accuracy": 0.9712, "precision": 0.9583, "recall": 0.9583, "f1": 0.9583, "roc_auc": 0.9961},
+     "cm": {"tn": 89, "fp": 2, "fn": 2, "tp": 46},
+     "cv": {"recall": 0.9677, "f1": 0.9544}, "cv_f1_tuning": 0.9530},
+    {"id": "svm", "name": {"en": "SVM", "ar": "SVM"},
+     "test": {"accuracy": 0.9640, "precision": 0.9574, "recall": 0.9375, "f1": 0.9474, "roc_auc": 0.9966},
+     "cm": {"tn": 89, "fp": 2, "fn": 3, "tp": 45},
+     "cv": {"recall": 0.9608, "f1": 0.9541}, "cv_f1_tuning": 0.9503},
+    {"id": "rf", "name": {"en": "Random Forest", "ar": "الغابة العشوائية"},
+     "test": {"accuracy": 0.9640, "precision": 0.9574, "recall": 0.9375, "f1": 0.9474, "roc_auc": 0.9940},
+     "cm": {"tn": 89, "fp": 2, "fn": 3, "tp": 45},
+     "cv": {"recall": 0.9621, "f1": 0.9526}, "cv_f1_tuning": 0.9514},
+    {"id": "knn", "name": {"en": "KNN", "ar": "KNN"},
+     "test": {"accuracy": 0.9640, "precision": 0.9778, "recall": 0.9167, "f1": 0.9462, "roc_auc": 0.9823},
+     "cm": {"tn": 90, "fp": 1, "fn": 4, "tp": 44},
+     "cv": {"recall": 0.9510, "f1": 0.9495}, "cv_f1_tuning": 0.9555},
+    {"id": "dt", "name": {"en": "Decision Tree", "ar": "شجرة القرار"},
+     "test": {"accuracy": 0.9281, "precision": 0.8958, "recall": 0.8958, "f1": 0.8958, "roc_auc": 0.9755},
+     "cm": {"tn": 86, "fp": 5, "fn": 5, "tp": 43},
+     "cv": {"recall": 0.9173, "f1": 0.9139}, "cv_f1_tuning": 0.9297}
+  ]
+}
